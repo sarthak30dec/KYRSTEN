@@ -1,0 +1,11 @@
+{
+  "name": "KYRSTEN - Futuristic Voice Assistant & MCP Platform",
+  "description": "A glass-morphic futuristic voice assistant with real-time audio visualization, dynamic Model Context Protocol (MCP) endpoints, and extensible Anthropic skills integration.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
+

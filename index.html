@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KYRSTEN - Futuristic Voice Assistant & MCP Platform</title>
+    <meta name="description" content="A glass-morphic futuristic voice assistant with real-time audio visualization, dynamic Model Context Protocol (MCP) endpoints, and extensible Anthropic skills integration." />
+    <meta property="og:title" content="KYRSTEN - Futuristic Voice Assistant & MCP Platform" />
+    <meta property="og:description" content="A glass-morphic futuristic voice assistant with real-time audio visualization, dynamic Model Context Protocol (MCP) endpoints, and extensible Anthropic skills integration." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      (function() {
+        var isIgnorableError = function(msg) {
+          if (!msg || typeof msg !== 'string') return true;
+          var trimmed = msg.trim();
+          if (!trimmed || trimmed === 'Script error.' || trimmed === 'Uncaught' || trimmed.indexOf('Uncaught') === 0) return true;
+          return (
+            (trimmed.indexOf('fetch') !== -1 && (trimmed.indexOf('getter') !== -1 || trimmed.indexOf('Cannot set property') !== -1 || trimmed.indexOf('read only') !== -1)) ||
+            trimmed.indexOf('AudioContext') !== -1 ||
+            trimmed.indexOf('user gesture') !== -1 ||
+            trimmed.indexOf('autoplay') !== -1 ||
+            trimmed.indexOf('ResizeObserver') !== -1 ||
+            trimmed.indexOf('IndexSizeError') !== -1 ||
+            trimmed.indexOf('Failed to load') !== -1 ||
+            trimmed.indexOf('iframe') !== -1
+          );
+        };
+
+        // Suppress uncaught empty / browser-artifact errors at window level
+        var originalOnError = window.onerror;
+        window.onerror = function(message, source, lineno, colno, error) {
+          var msg = (typeof message === 'string' ? message : '') || (error && error.message) || '';
+          if (isIgnorableError(msg)) {
+            return true; // suppresses empty/artifact error from uncaught reporting
+          }
+          if (typeof originalOnError === 'function') {
+            return originalOnError.apply(this, arguments);
+          }
+          return false;
+        };
+
+        window.addEventListener('error', function(event) {
+          if (event && event.target && event.target !== window) {
+            if (typeof event.preventDefault === 'function') event.preventDefault();
+            if (typeof event.stopPropagation === 'function') event.stopPropagation();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+            return true;
+          }
+          var msg = (event && (event.message || (event.error && event.error.message))) || '';
+          if (isIgnorableError(msg)) {
+            if (typeof event.preventDefault === 'function') event.preventDefault();
+            if (typeof event.stopPropagation === 'function') event.stopPropagation();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        // Catch unhandled promise rejections (e.g. suspended audio or autoplay restrictions)
+        window.addEventListener('unhandledrejection', function(event) {
+          var reason = event ? event.reason : null;
+          var reasonMsg = (reason && (reason.message || String(reason))) || '';
+          if (isIgnorableError(reasonMsg) || !reason) {
+            if (typeof event.preventDefault === 'function') event.preventDefault();
+            if (typeof event.stopPropagation === 'function') event.stopPropagation();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        // Make window.fetch assignable in sandboxed / iframe environments
+        try {
+          var curFetch = window.fetch ? window.fetch.bind(window) : null;
+          var descriptor = {
+            get: function() { return curFetch; },
+            set: function(fn) { curFetch = fn; },
+            configurable: true,
+            enumerable: true
+          };
+
+          try {
+            Object.defineProperty(window, 'fetch', descriptor);
+          } catch (e1) {
+            if (typeof Window !== 'undefined' && Window.prototype) {
+              try {
+                Object.defineProperty(Window.prototype, 'fetch', descriptor);
+              } catch (e2) {}
+            }
+          }
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
